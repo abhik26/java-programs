@@ -75,9 +75,14 @@ public class ProducerConsumerExample {
                     synchronized (dataQueue) {
                         if (dataQueue.size() == 0) {
                             System.out.println(Thread.currentThread().getName() + " - waiting for the data...");
-                            dataQueue.wait();
+                            dataQueue.wait(1000);
                         }
                         Integer num = dataQueue.poll();
+
+                        if (num == null) {
+                            break;
+                        }
+
                         System.out.println(Thread.currentThread().getName() + " - Consumed: " + num);
                     }
                     Thread.sleep(1000);

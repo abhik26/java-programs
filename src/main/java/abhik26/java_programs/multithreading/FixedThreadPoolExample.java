@@ -12,7 +12,7 @@ public class FixedThreadPoolExample {
 		ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
 		ThreadPoolExecutor tpExecutor = (ThreadPoolExecutor) executorService;
 		
-		System.out.println(tpExecutor.getActiveCount());
+		System.out.println("before active count: " + tpExecutor.getActiveCount());
 		
 		for (int i=1; i<10; i++) {
 			final int temp = i;
@@ -22,9 +22,9 @@ public class FixedThreadPoolExample {
 			});
 		}
 		
-		System.out.println(tpExecutor.getActiveCount());
-		System.out.println(tpExecutor.getLargestPoolSize());
-		System.out.println(tpExecutor.getTaskCount());
+		System.out.println("active count: " + tpExecutor.getActiveCount());
+		System.out.println("largest pool size: " + tpExecutor.getLargestPoolSize());
+		System.out.println("task count: " + tpExecutor.getTaskCount());
 	}
 
 }

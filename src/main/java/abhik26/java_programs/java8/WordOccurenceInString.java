@@ -10,7 +10,7 @@ public class WordOccurenceInString {
 
         string.chars().mapToObj(e -> (char) e).filter(e -> e != ' ')
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
+                .sorted(Map.Entry.<Character, Long>comparingByValue().reversed())
                 .forEach(e -> System.out.println(e.getKey() + "\t: " + e.getValue()));
 
         // Map<String, Integer> wordCountMap = new HashMap<String, Integer>();
