@@ -6,45 +6,45 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 public class EqualsAndHashCodeExample {
-    public static void main(String[] args) {
-        Set<Employee> employeeSet = new HashSet<Employee>();
+	public static void main(String[] args) {
+		Set<Employee> employeeSet = new HashSet<Employee>();
 
-        Employee e1 = new Employee(1, "Abhishek");
-        Employee e2 = new Employee(1, "Abhinesh");
-        
-        employeeSet.add(e1);
-        employeeSet.add(e2);
+		Employee e1 = new Employee(1, "Abhishek");
+		Employee e2 = new Employee(1, "Abhinesh");
 
-        System.out.println("equals: " + e1.equals(e2));
-        System.out.println("size: " + employeeSet.size());
-    }
+		employeeSet.add(e1);
+		employeeSet.add(e2);
 
-    private static class Employee {
-        Integer id;
-        String name;
+		System.out.println("equals: " + e1.equals(e2));
+		System.out.println("size: " + employeeSet.size());
+	}
 
-        public Employee(Integer id, String name) {
-            this.id = id;
-            this.name = name;
-        }
+	private static class Employee {
+		Integer id;
+		String name;
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.id);
-        }
+		public Employee(Integer id, String name) {
+			this.id = id;
+			this.name = name;
+		}
 
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null)
-                return false;
-            else if (obj == this)
-                return true;
-            else if (obj.getClass() != getClass())
-                return false;
-            else if (obj.hashCode() != hashCode())
-                return false;
-            
-            return true;
-        }
-    }
+		@Override
+		public int hashCode() {
+			return Objects.hash(this.id);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null)
+				return false;
+			else if (obj == this)
+				return true;
+			else if (obj.getClass() != getClass())
+				return false;
+			else if (obj.hashCode() != hashCode())
+				return false;
+
+			return true;
+		}
+	}
 }

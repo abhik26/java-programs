@@ -5,41 +5,41 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class ExecutorExample {
-    public static void main(String[] args) {
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
+	public static void main(String[] args) {
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-        for (int i = 1; i <= 5; i++) {
-            executorService.execute(new MyTask(i));
-        }
+		for (int i = 1; i <= 5; i++) {
+			executorService.execute(new MyTask(i));
+		}
 
-        executorService.shutdown();
-        
-        try {
-            executorService.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		executorService.shutdown();
 
-        // while(!executorService.isTerminated()) {}
+		try {
+			executorService.awaitTermination(10, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        if (executorService.isTerminated()) {
-            System.out.println("All taks completed by executor service and is terminated!");
-        }
-    }
+		// while(!executorService.isTerminated()) {}
 
-    private static class MyTask implements Runnable {
+		if (executorService.isTerminated()) {
+			System.out.println("All taks completed by executor service and is terminated!");
+		}
+	}
 
-        private int num;
+	private static class MyTask implements Runnable {
 
-        public MyTask(int num) {
-            this.num = num;
-        }
+		private int num;
 
-        @Override
-        public void run() {
-            for (int i=1; i<=num; i++) {
-                System.out.println(Thread.currentThread().getName() + ": " + i);
-            }
-        }
-    }
+		public MyTask(int num) {
+			this.num = num;
+		}
+
+		@Override
+		public void run() {
+			for (int i = 1; i <= num; i++) {
+				System.out.println(Thread.currentThread().getName() + ": " + i);
+			}
+		}
+	}
 }

@@ -10,59 +10,59 @@ import java.io.IOException;
 
 public class FileHandlingExample {
 
-    public static void main(String[] args) throws Exception {
-        final String fileFullPath = "java-file-handling-example.txt";
+	public static void main(String[] args) throws Exception {
+		final String fileFullPath = "java-file-handling-example.txt";
 
-        writeWithfileWriter(fileFullPath);
-        readWithFileReader(fileFullPath);
-        deleteFile(fileFullPath);
-    }
+		writeWithfileWriter(fileFullPath);
+		readWithFileReader(fileFullPath);
+		deleteFile(fileFullPath);
+	}
 
-    private static void writeWithfileWriter(final String fileFullPath) throws IOException {
-        String fileContent = "sample content for java file handling";
-        File file = new File(fileFullPath);
-        
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        
-        try (FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fileWriter)) {
-            bw.write(fileContent);
-            bw.newLine();
-            bw.write(fileContent);
-        }
-    }
+	private static void writeWithfileWriter(final String fileFullPath) throws IOException {
+		String fileContent = "sample content for java file handling";
+		File file = new File(fileFullPath);
 
-    private static void readWithFileReader(final String fileFullPath) throws IOException {
-        File file = new File(fileFullPath);
+		if (!file.exists()) {
+			file.createNewFile();
+		}
 
-        if (file.exists()) {
-            try (FileReader fileReader = new FileReader(file);
-                    BufferedReader br = new BufferedReader(fileReader)) {
+		try (FileWriter fileWriter = new FileWriter(file);
+				BufferedWriter bw = new BufferedWriter(fileWriter)) {
+			bw.write(fileContent);
+			bw.newLine();
+			bw.write(fileContent);
+		}
+	}
 
-                String line = null;
+	private static void readWithFileReader(final String fileFullPath) throws IOException {
+		File file = new File(fileFullPath);
 
-                while ((line = br.readLine()) != null) {
-                    System.out.println(line);
-                }
-            }
-        } else {
-            throw new FileNotFoundException("file not found");
-        }
-    }
+		if (file.exists()) {
+			try (FileReader fileReader = new FileReader(file);
+					BufferedReader br = new BufferedReader(fileReader)) {
 
-    private static void deleteFile(String fileFullPath) {
-        File file = new File(fileFullPath);
+				String line = null;
 
-        if (file.exists()) {
-            boolean fileDeleted = file.delete();
+				while ((line = br.readLine()) != null) {
+					System.out.println(line);
+				}
+			}
+		} else {
+			throw new FileNotFoundException("file not found");
+		}
+	}
 
-            if (fileDeleted) {
-                System.out.println("file deleted");
-            }
+	private static void deleteFile(String fileFullPath) {
+		File file = new File(fileFullPath);
 
-        }
-    }
+		if (file.exists()) {
+			boolean fileDeleted = file.delete();
+
+			if (fileDeleted) {
+				System.out.println("file deleted");
+			}
+
+		}
+	}
 
 }
