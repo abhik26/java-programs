@@ -20,10 +20,10 @@ public class AutoTerminateMultipleProducerConsumerExample {
 		}
 
 		long startTime = System.currentTimeMillis();
-		
+
 		executorService.shutdown();
-		executorService.awaitTermination(1000L, TimeUnit.SECONDS);
-		
+		executorService.awaitTermination(1000, TimeUnit.SECONDS);
+
 		long endTime = System.currentTimeMillis();
 
 		System.out.println("Program Ended... after waiting for " + (endTime - startTime) + " milliseconds");

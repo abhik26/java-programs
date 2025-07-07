@@ -28,11 +28,11 @@ public class ObjectStreamExample {
 				deserializedStudent = (Student) deserializedObject;
 			}
 
+			oos.close();
+			ois.close();
+
 			if (deserializedStudent != null) {
 				System.out.println(deserializedStudent);
-
-				oos.close();
-				ois.close();
 
 				oos = new ObjectOutputStream(new FileOutputStream("student.txt"));
 				oos.writeObject(deserializedStudent);
