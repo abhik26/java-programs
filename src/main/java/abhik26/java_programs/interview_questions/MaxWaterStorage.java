@@ -1,7 +1,7 @@
 package abhik26.java_programs.interview_questions;
 
 /*
- * Two Pointer approach
+ * Two pointer approach
  */
 public class MaxWaterStorage {
 

@@ -1,6 +1,6 @@
 package abhik26.java_programs;
 
-public class GarbageCollectionExample {
+public class GarbageCollectionWithFinalizeExample {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		MyGarbageCollection mgc1 = new MyGarbageCollection();
