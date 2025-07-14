@@ -8,12 +8,39 @@ import java.io.Serializable;
 
 public class SingletonDesignPatternExample {
 
+	public static void main(String[] args) {
+		System.out.println();
+		try {
+            // Serialize the singleton instance
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("singleton.ser"));
+			System.out.println("Getting instance to be written...");
+            oos.writeObject(Singleton.getInstance());
+            oos.close();
+
+            // Deserialize the singleton instance
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("singleton.ser"));
+			System.out.println("Reading object from input stream...");
+            Singleton deserializedSingleton = (Singleton) ois.readObject();
+            ois.close();
+
+			System.out.println("Object deserialized with toString: " + deserializedSingleton);
+
+			Singleton SingletonObj = Singleton.getInstance();
+
+            // Verify that both instances are the same
+            System.out.println("Are instances same? " + (SingletonObj.equals(deserializedSingleton)));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+
 	private static class Singleton implements Serializable {
 
 		private static volatile Singleton obj = null;
 
 		private Singleton() {
-			System.out.println("SingletonClass private constructor invoked...");
+			System.out.println("Singleton private constructor invoked...");
 		}
 
 		public static Singleton getInstance() {
@@ -28,38 +55,14 @@ public class SingletonDesignPatternExample {
 				}
 			}
 			
-			System.out.println("SingletonClass.getInstance method invoked with object present: " + objectPresent);
+			System.out.println("Singleton.getInstance method invoked with object present: " + objectPresent);
 			return obj;
 		}
 
 		private Object readResolve() {
-			System.out.println("SingletonClass.readResolve method invoked");
+			System.out.println("Singleton.readResolve method invoked");
 			return getInstance();
 			// return obj;
 		}
-	}
-
-	public static void main(String[] args) {
-		try {
-            // Serialize the singleton instance
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("singleton.ser"));
-            oos.writeObject(Singleton.getInstance());
-            oos.close();
-
-            // Deserialize the singleton instance
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("singleton.ser"));
-            Singleton deserializedSingleton = (Singleton) ois.readObject();
-            ois.close();
-
-			System.out.println("Object deserialized with toString: " + deserializedSingleton);
-
-			Singleton SingletonObj = Singleton.getInstance();
-
-            // Verify that both instances are the same
-            System.out.println("Are instances same? " + (SingletonObj.equals(deserializedSingleton)));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 	}
 }

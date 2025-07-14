@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/*
+ * Dynamic Programming
+ */
 public class ArrayElementsProductExceptCurrentIndex {
 
 	public static void main(String[] args) {
