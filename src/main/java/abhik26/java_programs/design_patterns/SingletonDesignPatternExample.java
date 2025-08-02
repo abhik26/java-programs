@@ -25,10 +25,10 @@ public class SingletonDesignPatternExample {
 
 			System.out.println("Object deserialized with toString: " + deserializedSingleton);
 
-			Singleton SingletonObj = Singleton.getInstance();
+			Singleton singletonObj = Singleton.getInstance();
 
             // Verify that both instances are the same
-            System.out.println("Are instances same? " + (SingletonObj.equals(deserializedSingleton)));
+            System.out.println("Are instances same? " + (singletonObj.equals(deserializedSingleton)));
 
         } catch (Exception e) {
             e.printStackTrace();

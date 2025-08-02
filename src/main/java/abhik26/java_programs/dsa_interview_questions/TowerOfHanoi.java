@@ -1,4 +1,4 @@
-package abhik26.java_programs.interview_questions;
+package abhik26.java_programs.dsa_interview_questions;
 
 /*
  * Recursion Problem
@@ -6,7 +6,7 @@ package abhik26.java_programs.interview_questions;
 public class TowerOfHanoi {
 
 	public static void main(String[] args) {
-		int numberOfDisks = 2;
+		int numberOfDisks = 3;
 		int movesCount = moveDisks(numberOfDisks, "1", "2", "3");
 		System.out.println("Total number of moves: " + movesCount);
 	}
@@ -19,7 +19,7 @@ public class TowerOfHanoi {
 			movesCount += moveDisks(numberOfDisks - 1, sourcePole, targetPole, helperPole);
 			movesCount += moveDisks(1, sourcePole, helperPole, targetPole);
 			movesCount += moveDisks(numberOfDisks - 1, helperPole, sourcePole, targetPole);
-		} else {
+		} else if (numberOfDisks == 1) {
 			System.out.println(String.format("Move from %s to %s", sourcePole, targetPole));
 			movesCount++;
 		}

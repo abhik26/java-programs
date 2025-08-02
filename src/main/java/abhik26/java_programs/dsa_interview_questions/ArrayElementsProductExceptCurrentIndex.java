@@ -1,4 +1,4 @@
-package abhik26.java_programs.interview_questions;
+package abhik26.java_programs.dsa_interview_questions;
 
 import java.util.Arrays;
 import java.util.Random;
