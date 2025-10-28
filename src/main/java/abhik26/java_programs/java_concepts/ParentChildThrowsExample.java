@@ -3,13 +3,13 @@ package abhik26.java_programs.java_concepts;
 import java.util.Random;
 
 interface ThrowsInterface {
-	void throwsIfNumIsOddFunction(int num);
+	void throwsIfNumIsOddFunction(int num) throws RuntimeException;
 }
 
 public class ParentChildThrowsExample implements ThrowsInterface {
 
 	@Override
-	public void throwsIfNumIsOddFunction(int num) throws RuntimeException {
+	public void throwsIfNumIsOddFunction(int num) {
 		System.out.println("num: " + num);
 
 		if (num % 2 != 0) {
