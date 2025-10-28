@@ -1,4 +1,4 @@
-package abhik26.java_programs;
+package abhik26.java_programs.java_concepts;
 
 import java.util.HashSet;
 import java.util.Objects;
