@@ -19,42 +19,45 @@ public class CtcToTakeHomeSalaryCalculator {
 		float epfMultiplier = 0.12f;
 		float gratuityMultiplier = 0.048f;
 
-		int basicMonthly = Math.round((ctc / (grossMultiplier + epfMultiplier + gratuityMultiplier)) / 12);
-		int hraMonthly = Math.round(basicMonthly * hraMultiplier);
-		int grossMonthly = Math.round(basicMonthly * grossMultiplier);
-		int specialMonthly = grossMonthly - (basicMonthly + hraMonthly);
-		int epfMonthly = Math.round(basicMonthly * epfMultiplier);
-		int gratuityMonthly = Math.round(basicMonthly * gratuityMultiplier);
+		int basicAnnual = Math.round(ctc / (grossMultiplier + epfMultiplier + gratuityMultiplier));
+		int hraAnnual = Math.round(basicAnnual * hraMultiplier);
+		int grossAnnual = Math.round(basicAnnual * grossMultiplier);
+		int specialAnnual = Math.round(grossAnnual - (basicAnnual + hraAnnual));
+		int epfAnnual = Math.round(basicAnnual * epfMultiplier);
+		int gratuityAnnual = Math.round(basicAnnual * gratuityMultiplier);
 
-		int basicAnnual = basicMonthly * 12;
-		int hraAnnual = hraMonthly * 12;
-		int specialAnnual = specialMonthly * 12;
-		int grossAnnual = grossMonthly * 12;
-		int epfAnnual = epfMonthly * 12;
-		int gratuityAnnual = gratuityMonthly * 12;
+		int basicMonthly =  Math.round(basicAnnual / 12);
+		int hraMonthly = Math.round(hraAnnual / 12);
+		int grossMonthly = Math.round(grossAnnual / 12);
+		int specialMonthly = Math.round(specialAnnual / 12);
+		int epfMonthly = Math.round(epfAnnual / 12);
+		int gratuityMonthly = Math.round(gratuityAnnual / 12);
 
 		float incomeTaxAnnual = calculateIncomeTax(grossAnnual);
 		float incomeTaxMonthly = incomeTaxAnnual / 12;
 
 		String format = "%-15s\t%10s\t%10s\n";
-		System.out.println();
+		System.out.println("=================================================");
 		System.out.printf(format, "Component", "Monthly", "Annual");
 		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "Basic", basicMonthly, basicAnnual);
 		System.out.printf(format, "HRA", hraMonthly, hraAnnual);
 		System.out.printf(format, "Special", specialMonthly, specialAnnual);
+		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "Gross", grossMonthly, grossAnnual);
+		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "EPF", epfMonthly, epfAnnual);
 		System.out.printf(format, "Gratuity", gratuityMonthly, gratuityAnnual);
 		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "Income tax", incomeTaxMonthly, incomeTaxAnnual);
+		System.out.printf(format, "-", "-", "-");
 		System.out.println(
 				"Monthly salary after epf and tax deduction: " + (grossMonthly - epfMonthly - (incomeTaxAnnual / 12)));
 		System.out.println("CTC provided: " + ctc + ", CTC calculated: " + (grossAnnual + epfAnnual + gratuityAnnual));
-		System.out.println();
+		System.out.println("=================================================");
 	}
 
-	private static float calculateIncomeTax(int grossAnnual) {
+	private static float calculateIncomeTax(float grossAnnual) {
 		
 		float incomeTax = 0f;
 		int standarDeduction = 75_000;
@@ -73,7 +76,7 @@ public class CtcToTakeHomeSalaryCalculator {
 		LinkedList<Integer> slabRatesSorted = incomeSlabRateMap.keySet().stream().sorted((e1, e2) -> e2 - e1)
 				.collect(Collectors.toCollection(LinkedList::new));
 
-		int taxableIncome = grossAnnual - standarDeduction;
+		float taxableIncome = grossAnnual - standarDeduction;
 
 		if (taxableIncome - taxIncomeRebateLimit <= marginalRelief) {
 			incomeTax = taxableIncome - taxIncomeRebateLimit;
@@ -83,7 +86,7 @@ public class CtcToTakeHomeSalaryCalculator {
 				int slabRateIncome = incomeSlabRateMap.get(slabRate);
 
 				if (taxableIncome > slabRateIncome) {
-					int income = taxableIncome - slabRateIncome;
+					float income = taxableIncome - slabRateIncome;
 					incomeTax += (income * slabRate / 100f);
 					taxableIncome = slabRateIncome;
 				}
