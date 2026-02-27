@@ -18,16 +18,27 @@ public class HighestSalaryByDepartmentUsingStream {
 				new Employee("Eve", "Finance", 70000, Employee.Gender.FEMALE),
 				new Employee("Evy", "IT", 78000, Employee.Gender.FEMALE));
 
-		// group by department with highest salary
+		// group by department with highest salary employee
 		System.out.println("\n<------------------------->");
-		Map<String, Optional<Employee>> highestSalaryByDepartment = employees.stream()
+		Map<String, Optional<Employee>> employeeWithHighestSalaryByDepartment = employees.stream()
 				.collect(Collectors.groupingBy(
 						Employee::getDepartment,
 						Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary))));
 
-		highestSalaryByDepartment.forEach((department, employeeOptional) -> {
+		employeeWithHighestSalaryByDepartment.forEach((department, employeeOptional) -> {
 			employeeOptional.ifPresent(employee -> System.out
 					.println("Department: " + department + ", Highest Paid Employee: " + employee));
+		});
+
+		// group by department with highest salary
+		System.out.println("\n<------------------------->");
+		Map<String, Optional<Double>> highestSalaryByDepartment = employees.stream()
+				.collect(Collectors.groupingBy(
+						Employee::getDepartment,
+						Collectors.mapping(Employee::getSalary, Collectors.maxBy(Comparator.comparingDouble(s -> s)))));
+
+		highestSalaryByDepartment.forEach((department, salaryOptional) -> {
+			salaryOptional.ifPresent(salary -> System.out.println("Department: " + department + ", Highest Salary: " + salary));
 		});
 
 		// Group By department
