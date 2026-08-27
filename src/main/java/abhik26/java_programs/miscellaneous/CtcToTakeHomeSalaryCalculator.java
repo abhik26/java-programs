@@ -8,25 +8,25 @@ import java.util.stream.Collectors;
 public class CtcToTakeHomeSalaryCalculator {
 
 	// multipliers are respect to basic salary
-	private static final float grossMultiplier = 2f; // can be 2x to 2.5x of basic salary i.e. (basic is in the range of 40% to 50% of gross salary)
-	private static final float hraMultiplier = 0.4f; // can be 0.4x or 0.5x of basic salary i.e. (hra can be 40% or 50% of basic salary)
-	private static final float epfMultiplier = 0.12f;
-	private static final float gratuityMultiplier = 0.048f;
-	private static final float professionalTaxMonthly = 200f;
+	private static final float basicMultiplier = 0.5f; // can be 0.4x to 0.5x of CTC i.e. (basic is in the range of 40% to 50% of CTC)
+	private static final float hraMultiplier = 0.5f; // can be 0.4x or 0.5x of basic salary i.e. (hra can be 40% or 50% of basic salary)
+	private static final float epfMultiplier = 0.12f; // 12% of basic salary is contributed to EPF by employee and employer each. Total 24% of basic salary is contributed to EPF.
+	private static final float gratuityMultiplier = 0.048f; // 4.8% of basic salary is contributed to gratuity by employer. Gratuity is applicable only if employee has worked for more than 5 years in the company.
+	private static final float professionalTaxMonthly = 200f; // For Karnataka state, professional tax is 200 per month for salary above 15k
 
 	public static void main(String[] args) {
-		int ctc = 15_00_000;
+		int ctc = 15_00_000; // 15 Lakhs Per Annum (LPA)
 		calculateMonthlyTakeHomeSalary(ctc);
 	}
 
 	public static void calculateMonthlyTakeHomeSalary(int ctc) {
 
-		float basicAnnual = ctc / (grossMultiplier + epfMultiplier + gratuityMultiplier);
-		float grossAnnual = basicAnnual * grossMultiplier;
+		float basicAnnual = ctc * basicMultiplier;
 		float hraAnnual = basicAnnual * hraMultiplier;
-		float specialAnnual = grossAnnual - (basicAnnual + hraAnnual);
 		float epfAnnual = basicAnnual * epfMultiplier;
 		float gratuityAnnual = basicAnnual * gratuityMultiplier;
+		float grossAnnual = ctc - (epfAnnual + gratuityAnnual);
+		float specialAnnual = grossAnnual - (basicAnnual + hraAnnual);
 
 		float basicMonthly =  basicAnnual / 12;
 		float grossMonthly = grossAnnual / 12;
@@ -44,8 +44,8 @@ public class CtcToTakeHomeSalaryCalculator {
 		System.out.printf(format, "Component", "Monthly", "Annual");
 		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "Basic", basicMonthly, basicAnnual);
-		System.out.printf(format, "HRA", hraMonthly, hraAnnual);
-		System.out.printf(format, "Special", specialMonthly, specialAnnual);
+		System.out.printf(format, "House Rent Allowance", hraMonthly, hraAnnual);
+		System.out.printf(format, "Special Allowance", specialMonthly, specialAnnual);
 		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "Gross", grossMonthly, grossAnnual);
 		System.out.printf(format, "-", "-", "-");
