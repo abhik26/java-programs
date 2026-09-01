@@ -14,6 +14,9 @@ public class CtcToTakeHomeSalaryCalculator {
 	private static final float gratuityMultiplier = 0.0481f; // 4.81% of basic salary is contributed to gratuity by employer. Gratuity is applicable only if employee has worked for more than 5 years in the company.
 	private static final float professionalTaxMonthly = 200f; // For Karnataka state, professional tax is 200 per month for salary above 15k
 
+	private static final String format = "%-20s %15s %15s\n";
+	private static final String line = "=".repeat(52);
+		
 	public static void main(String[] args) {
 		int ctc = 1500000; // 15 Lakhs Per Annum (LPA)
 		calculateMonthlyTakeHomeSalary(ctc);
@@ -41,8 +44,6 @@ public class CtcToTakeHomeSalaryCalculator {
 		float netInHandAnnual = grossAnnual - (epfAnnual + incomeTaxAnnual + (professionalTaxMonthly * 12));
 		float netInHandMonthly = netInHandAnnual / 12;
 
-		String format = "%-20s %15s %15s\n";
-		String line = "=".repeat(52);
 		System.out.println(line);
 		System.out.printf(format, "Component", "Monthly", "Annually");
 		System.out.printf(format, "-", "-", "-");
@@ -70,7 +71,6 @@ public class CtcToTakeHomeSalaryCalculator {
 		
 		float incomeTax = 0f;
 		int standarDeduction = 75_000;
-		int marginalRelief = 75_000;
 		int taxIncomeRebateLimit = 12_00_000;
 		float healthAndEducationCessMultiplier = 0.04f;
 
@@ -88,19 +88,21 @@ public class CtcToTakeHomeSalaryCalculator {
 		float taxableIncome = grossAnnual - standarDeduction;
 
 		if (taxableIncome > taxIncomeRebateLimit) {
-			if (taxableIncome - taxIncomeRebateLimit <= marginalRelief) {
-				incomeTax = taxableIncome - taxIncomeRebateLimit;
-			} else {
-				while (!slabRatesSorted.isEmpty()) {
-					int slabRate = slabRatesSorted.removeFirst();
-					int slabRateIncome = incomeSlabRateMap.get(slabRate);
+			float tempTaxableIncome = taxableIncome;
 
-					if (taxableIncome > slabRateIncome) {
-						float income = taxableIncome - slabRateIncome;
-						incomeTax += (income * slabRate / 100f);
-						taxableIncome = slabRateIncome;
-					}
+			while (!slabRatesSorted.isEmpty()) {
+				int slabRate = slabRatesSorted.removeFirst();
+				int slabRateIncome = incomeSlabRateMap.get(slabRate);
+
+				if (tempTaxableIncome > slabRateIncome) {
+					float slabTaxableIncome = tempTaxableIncome - slabRateIncome;
+					incomeTax += (slabTaxableIncome * slabRate / 100f);
+					tempTaxableIncome = slabRateIncome;
 				}
+			}
+
+			if (incomeTax > (taxableIncome - taxIncomeRebateLimit)) {
+				incomeTax = taxableIncome - taxIncomeRebateLimit;
 			}
 		}
 
