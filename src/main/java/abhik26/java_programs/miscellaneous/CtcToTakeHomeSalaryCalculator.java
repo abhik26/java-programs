@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 public class CtcToTakeHomeSalaryCalculator {
 
 	// multipliers are respect to basic salary
-	private static final float basicMultiplier = 0.5f; // can be 0.4x to 0.5x of CTC i.e. (basic is in the range of 40% to 50% of CTC)
+	private static final float basicMultiplier = 0.5f; // Should be 0.5x i.e. (basic is 50% of fixed CTC)
 	private static final float hraMultiplier = 0.5f; // can be 0.4x or 0.5x of basic salary i.e. (hra can be 40% or 50% of basic salary)
-	private static final float epfMultiplier = 0.12f; // 12% of basic salary is contributed to EPF by employee and employer each. Total 24% of basic salary is contributed to EPF.
-	private static final float gratuityMultiplier = 0.048f; // 4.8% of basic salary is contributed to gratuity by employer. Gratuity is applicable only if employee has worked for more than 5 years in the company.
+	private static final float epfMultiplier = 0.12f; // 12% of basic salary is deducted and contributed to EPF from employee's side. The same amount is contributed by employer to EPF.
+	private static final float gratuityMultiplier = 0.0481f; // 4.81% of basic salary is contributed to gratuity by employer. Gratuity is applicable only if employee has worked for more than 5 years in the company.
 	private static final float professionalTaxMonthly = 200f; // For Karnataka state, professional tax is 200 per month for salary above 15k
 
 	public static void main(String[] args) {
-		int ctc = 15_00_000; // 15 Lakhs Per Annum (LPA)
+		int ctc = 1500000; // 15 Lakhs Per Annum (LPA)
 		calculateMonthlyTakeHomeSalary(ctc);
 	}
 
@@ -38,10 +38,13 @@ public class CtcToTakeHomeSalaryCalculator {
 		float incomeTaxAnnual = calculateIncomeTax(grossAnnual);
 		float incomeTaxMonthly = incomeTaxAnnual / 12;
 
+		float netInHandAnnual = grossAnnual - (epfAnnual + incomeTaxAnnual + (professionalTaxMonthly * 12));
+		float netInHandMonthly = netInHandAnnual / 12;
+
 		String format = "%-20s %15s %15s\n";
-		String line = "=====================================================";
+		String line = "=".repeat(52);
 		System.out.println(line);
-		System.out.printf(format, "Component", "Monthly", "Annual");
+		System.out.printf(format, "Component", "Monthly", "Annually");
 		System.out.printf(format, "-", "-", "-");
 		System.out.printf(format, "Basic", basicMonthly, basicAnnual);
 		System.out.printf(format, "House Rent Allowance", hraMonthly, hraAnnual);
@@ -55,8 +58,10 @@ public class CtcToTakeHomeSalaryCalculator {
 		System.out.printf(format, "Income tax", incomeTaxMonthly, incomeTaxAnnual);
 		System.out.printf(format, "Professional tax", professionalTaxMonthly, professionalTaxMonthly * 12);
 		System.out.printf(format, "-", "-", "-");
+		System.out.printf(format, "Net In-hand", netInHandMonthly, netInHandAnnual);
+		System.out.println(line);
 		System.out.println(
-				"In hand monthly salary after deductions: " + (grossMonthly - epfMonthly - incomeTaxMonthly - professionalTaxMonthly));
+				"In hand monthly salary after deductions (EPF, income tax, professional tax): " + (grossMonthly - epfMonthly - incomeTaxMonthly - professionalTaxMonthly));
 		System.out.println("CTC provided: " + ctc + ", CTC calculated: " + (grossAnnual + epfAnnual + gratuityAnnual));
 		System.out.println(line);
 	}
